@@ -15,13 +15,10 @@ Route::post('/playgrounds', function (Request $request) {
 
     $hash = md5(implode('.', $request->only(['html', 'css', 'config'])));
 
-    return Playground::forceCreate(array_merge($request->only(['html', 'css', 'config']), [
-        'uuid' => Str::random(10),
-        'hash' => $hash,
-    ]));
-
-    // New idea
-    // return Playground::firstOrCreate(array_merge($request->only(['html', 'css', 'config']), [
-    //     'uuid' => Str::random(10)
-    // ]));
+    return Playground::firstOrCreate(
+        ['hash' => $hash],
+        array_merge($request->only(['html', 'css', 'config']), [
+            'uuid' => Str::random(10),
+        ])
+    );
 })->middleware(['throttle:api']);
