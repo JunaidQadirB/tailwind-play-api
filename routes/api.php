@@ -14,6 +14,6 @@ Route::post('/playgrounds', function (Request $request) {
     ]);
 
     return Playground::forceCreate(array_merge($request->only(['html', 'css', 'config']), [
-        'uuid' => Str::random(16)
+        'uuid' => Str::random(10)
     ]));
 })->middleware(['throttle:api']);
